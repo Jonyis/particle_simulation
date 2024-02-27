@@ -7,9 +7,9 @@ public:
 
 	void update();
 
-	void draw();
+	void draw() const;
 
-	sf::CircleShape getShape();
+	sf::CircleShape getShape() const;
 
 private:
 	float xPos;
