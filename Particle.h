@@ -7,6 +7,8 @@ public:
 
 	void update();
 
+	bool collidesWith(const Particle& other) const;
+
 	void draw() const;
 
 	sf::CircleShape getShape() const;

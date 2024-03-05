@@ -1,38 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include "Particle.h"
+#include "ParticleManager.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 
 
-void updateParticles(const std::vector<Particle*>& particles) {
-    for (auto particle : particles)
-        particle->update();
-}
+void handleWindowEvents(sf::RenderWindow& window, const ParticleManager& particleManager, bool& isPaused);
 
-std::vector<Particle*> createParticles(int n) {
-    std::vector<Particle*> particles;
-    particles.reserve(n);
-    for (int i = 0; i < n; i++) {
-        particles.emplace_back(new Particle(50.f, 50.f, 0.03f * 75, 0.04f * 75, 50.f-((float)i/n)*50));
-    }
-    return particles;
-}
-
-void drawParticles(sf::RenderWindow& window, const std::vector<Particle*>& particles) {
-    for (auto particle : particles)
-        window.draw(particle->getShape());
-}
-
-void drawFrame(sf::RenderWindow& window, const std::vector<Particle*>& particles) {
-    window.clear();
-    drawParticles(window, particles);
-    window.display();
-}
-
-void handleWindowEvents(sf::RenderWindow& window, const std::vector<Particle*>& particles, bool& isPaused);
-
-int main()  
+int main()
 {
     int n = 20;
 
@@ -41,23 +17,26 @@ int main()
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Default, settings);
     window.setFramerateLimit(120);
 
-    std::vector<Particle*> particles = createParticles(n);
+    ParticleManager particleManager(n);
     bool isPaused = false;
 
     while (window.isOpen())
     {
-        handleWindowEvents(window, particles, isPaused);
+        handleWindowEvents(window, particleManager, isPaused);
 
         if (!isPaused)
-            updateParticles(particles);
+            particleManager.updateParticles();
 
-        drawFrame(window, particles);
+        window.clear();
+        particleManager.drawParticles(window);
+        window.display();
     }
 
     return 0;
 }
 
-void handleWindowEvents(sf::RenderWindow& window, const std::vector<Particle*>& particles, bool &isPaused) {
+
+void handleWindowEvents(sf::RenderWindow& window, const ParticleManager& particleManager, bool &isPaused) {
     sf::Event event;
 
     while (window.pollEvent(event))
@@ -69,10 +48,10 @@ void handleWindowEvents(sf::RenderWindow& window, const std::vector<Particle*>& 
             if (event.key.code == sf::Keyboard::P)
                 isPaused = !isPaused;
             if (isPaused && event.key.code == sf::Keyboard::S)
-                updateParticles(particles);
+                particleManager.updateParticles();
         }
         if (event.type == sf::Event::KeyPressed)
             if (isPaused && event.key.code == sf::Keyboard::Right)
-                updateParticles(particles);
+                particleManager.updateParticles();
     }
 }

@@ -20,6 +20,13 @@ void Particle::update() {
 	checkCollisions();
 }
 
+bool Particle::collidesWith(const Particle& other) const {
+	float dx = xPos - other.xPos;
+	float dy = yPos - other.yPos;
+	float distance_sqrd = (dx * dx + dy * dy);
+	return distance_sqrd < std::pow(radius + other.radius, 2);
+}
+
 void Particle::checkCollisions() {
 	if (this->xPos + this->radius > 500 || this->xPos - this->radius < 0)
 		this->xVel *= -1;
