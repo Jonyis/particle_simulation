@@ -14,7 +14,7 @@ void ParticleManager::addParticles(int n) {
 				std::rand() % 300 + 50,
 				0.03f * 75, 
 				0.04f * 75,
-				50, 
+				30, 
 				10));
 	}
 }
@@ -104,8 +104,10 @@ void ParticleManager::bounceOff(int i, int j) {
 	sf::Vector2f v1 = particles[i]->getVelocity();
 	sf::Vector2f v2 = particles[j]->getVelocity();
 
-	sf::Vector2f newV1 = v1 * (m1 - m2) / (m1 + m2) + v2 * 2.f * m2 / (m1 + m2);
-	sf::Vector2f newV2 = v1 * 2.f * m1 / (m1 + m2) + v2 * (m2 - m1) / (m1 + m2);
+	float m1_m2 = m1 + m2;
+
+	sf::Vector2f newV1 = (v1 * (m1 - m2) + v2 * 2.f * m2) / m1_m2;
+	sf::Vector2f newV2 = (v1 * 2.f * m1 + v2 * (m2 - m1)) / m1_m2;
 
 	particles[i]->setVelocity(newV1);
 	particles[j]->setVelocity(newV2);

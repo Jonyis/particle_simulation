@@ -1,8 +1,13 @@
 #include "Particle.h"
 
-Particle::Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass) {
-	this->position = sf::Vector2f(xPos, yPos);
-	this->velocity = sf::Vector2f(xVel, yVel);
+Particle::Particle(float x, float y, float vx, float vy, float radius, float mass)
+	: position(x, y), velocity(vx, vy), radius(radius), mass(mass) {
+	if (radius <= 0) {
+		throw std::invalid_argument("Radius must be positive");
+	}
+	if (mass <= 0) {
+		throw std::invalid_argument("Mass must be positive");
+	}
 	this->radius = radius;
 	this->mass = mass;
 
@@ -21,7 +26,8 @@ void Particle::update() {
 bool Particle::collidesWith(const Particle& other) const {
 	sf::Vector2f dPos = position - other.position;
 	float distance_sqrd = (dPos.x * dPos.x + dPos.y * dPos.y);
-	return distance_sqrd < std::pow(radius + other.radius, 2);
+	float radius_sum = radius + other.radius;
+	return distance_sqrd < (radius_sum * radius_sum);
 }
 
 void Particle::checkCollisions() {
