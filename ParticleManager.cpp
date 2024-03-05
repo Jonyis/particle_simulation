@@ -7,7 +7,7 @@ ParticleManager::ParticleManager(int n) {
 
 void ParticleManager::addParticles(int n) {
 	for (int i = 0; i < n; i++) {
-		addParticle(std::make_unique<Particle>(50.f+100*i, 50.f+100*i, 0.03f * 75, 0.04f * 75, 50.f - ((float)i / n) * 50, 1 + 10*(1-i)));
+		addParticle(std::make_unique<Particle>(75.f+100*i, 75.f+100*i, 0.03f * 75, 0.04f * 75, 50.f - ((float)i / n) * 50, 1 + 10*(1-i)));
 	}
 }
 
@@ -35,11 +35,47 @@ int ParticleManager::countParticles() const {
 	return particles.size();
 }
 
+void ParticleManager::update(float dt) {
+	// Update particles
+	updateParticles();
+
+	// Apply gravity
+	//applyGravity(dt);
+
+	// Apply air resistance
+	//applyAirResistance(dt);
+
+	// Check for collisions
+	checkCollisions();
+
+	// Draw particles
+}
+
 void ParticleManager::updateParticles() {
 	for (auto const& particle : particles)
 		particle->update();
 
 	checkCollisions();
+}
+
+void ParticleManager::applyGravity(float dt) const {
+	const sf::Vector2f gravity(0.f, 9.8f);  // Gravity acceleration (in pixels/s^2)
+
+	for (auto const& particle : particles) {
+		sf::Vector2f velocity = particle->getVelocity();
+		velocity += gravity * dt;
+		particle->setVelocity(velocity);
+	}
+}
+
+void ParticleManager::applyAirResistance(float dt) const {
+	const float airResistance = 0.1f;  // Air resistance coefficient
+
+	for (auto& particle : particles) {
+		sf::Vector2f velocity = particle->getVelocity();
+		velocity -= airResistance * velocity * dt;
+		particle->setVelocity(velocity);
+	}
 }
 
 void ParticleManager::checkCollisions() {

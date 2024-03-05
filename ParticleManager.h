@@ -20,14 +20,20 @@ public:
     
     int countParticles() const;
 
-    void updateParticles();
-
-    void checkCollisions();
+    void update(float dt);
 
     void drawParticles(sf::RenderWindow& window) const;
 
 private:
     std::vector<std::unique_ptr<Particle>> particles;
+
+    void updateParticles();
+
+    void applyGravity(float dt) const;
+
+    void applyAirResistance(float dt) const;
+
+    void checkCollisions();
 
     void bounceOff(int i, int j);
 };

@@ -10,7 +10,7 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
 
 int main()
 {
-    int n = 2;
+    int n = 1;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
@@ -25,7 +25,7 @@ int main()
         handleWindowEvents(window, particleManager, isPaused);
 
         if (!isPaused)
-            particleManager.updateParticles();
+            particleManager.update(1.f / 120.f);
 
         window.clear();
         particleManager.drawParticles(window);
@@ -48,10 +48,10 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
             if (event.key.code == sf::Keyboard::P)
                 isPaused = !isPaused;
             if (isPaused && event.key.code == sf::Keyboard::S)
-                particleManager.updateParticles();
+                particleManager.update(1.f / 120.f);
         }
         if (event.type == sf::Event::KeyPressed)
             if (isPaused && event.key.code == sf::Keyboard::Right)
-                particleManager.updateParticles();
+                particleManager.update(1.f / 120.f);
     }
 }
