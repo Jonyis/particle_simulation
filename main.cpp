@@ -6,11 +6,11 @@
 #include <cstdlib>
 
 
-void handleWindowEvents(sf::RenderWindow& window, const ParticleManager& particleManager, bool& isPaused);
+void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool& isPaused);
 
 int main()
 {
-    int n = 20;
+    int n = 2;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
@@ -36,7 +36,7 @@ int main()
 }
 
 
-void handleWindowEvents(sf::RenderWindow& window, const ParticleManager& particleManager, bool &isPaused) {
+void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool &isPaused) {
     sf::Event event;
 
     while (window.pollEvent(event))
