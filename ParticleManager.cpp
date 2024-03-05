@@ -7,7 +7,15 @@ ParticleManager::ParticleManager(int n) {
 
 void ParticleManager::addParticles(int n) {
 	for (int i = 0; i < n; i++) {
-		addParticle(std::make_unique<Particle>(75.f+100*i, 75.f+100*i, 0.03f * 75, 0.04f * 75, 50.f - ((float)i / n) * 50, 1 + 10*(1-i)));
+		
+		addParticle(
+			std::make_unique<Particle>(
+				std::rand() % 300 + 50, 
+				std::rand() % 300 + 50,
+				0.03f * 75, 
+				0.04f * 75,
+				50, 
+				10));
 	}
 }
 
@@ -40,10 +48,10 @@ void ParticleManager::update(float dt) {
 	updateParticles();
 
 	// Apply gravity
-	//applyGravity(dt);
+	applyGravity(dt);
 
 	// Apply air resistance
-	//applyAirResistance(dt);
+	applyAirResistance(dt);
 
 	// Check for collisions
 	checkCollisions();
@@ -51,11 +59,10 @@ void ParticleManager::update(float dt) {
 	// Draw particles
 }
 
-void ParticleManager::updateParticles() {
+void ParticleManager::updateParticles() const{
 	for (auto const& particle : particles)
 		particle->update();
 
-	checkCollisions();
 }
 
 void ParticleManager::applyGravity(float dt) const {

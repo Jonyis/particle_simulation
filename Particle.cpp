@@ -25,11 +25,17 @@ bool Particle::collidesWith(const Particle& other) const {
 }
 
 void Particle::checkCollisions() {
-	if (this->position.x + this->radius > 500 || this->position.x - this->radius < 0)
+	if (this->position.x + this->radius > 500 || this->position.x - this->radius < 0) {
+		this->position.x = std::max(this->position.x, this->radius);
+		this->position.x = std::min(this->position.x, 500.f - this->radius);
 		this->velocity.x *= -1;
+	}
 
-	if (this->position.y + this->radius > 500 || this->position.y - this->radius < 0)
+	if (this->position.y + this->radius > 500 || this->position.y - this->radius < 0) {
+		this->position.y = std::max(this->position.y, this->radius);
+		this->position.y = std::min(this->position.y, 500.f - this->radius);
 		this->velocity.y *= -1;
+	}
 }
 
 void Particle::draw() const {

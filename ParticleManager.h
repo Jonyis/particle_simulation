@@ -27,7 +27,7 @@ public:
 private:
     std::vector<std::unique_ptr<Particle>> particles;
 
-    void updateParticles();
+    void updateParticles() const;
 
     void applyGravity(float dt) const;
 

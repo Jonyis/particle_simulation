@@ -10,8 +10,10 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
 
 int main()
 {
-    int n = 1;
+    std::srand(std::time(nullptr));
 
+    int n = 2;
+    
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Default, settings);
