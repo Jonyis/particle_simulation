@@ -12,7 +12,7 @@ int main()
 {
     std::srand(std::time(nullptr));
 
-    int n = 2;
+    int n = 1;
     
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
@@ -51,6 +51,10 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
                 isPaused = !isPaused;
             if (isPaused && event.key.code == sf::Keyboard::S)
                 particleManager.update(1.f / 120.f);
+            if (event.key.code == sf::Keyboard::R)
+				particleManager.clearParticles();
+            if (event.key.code == sf::Keyboard::C)
+				particleManager.addParticles(20);
         }
         if (event.type == sf::Event::KeyPressed)
             if (isPaused && event.key.code == sf::Keyboard::Right)

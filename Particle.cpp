@@ -17,10 +17,21 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 	shape.setOutlineColor(sf::Color::Red);
 }
 
-void Particle::update() {
-	this->position += this->velocity;
+void Particle::update(float timeStep) {
+
+	sf::Vector2f _velocity = position - oldPosition;
+	oldPosition = position;
+
+	position = position + _velocity + acceleration * timeStep * timeStep;
+	
+	acceleration = { 0.f, 0.f };
+
 	this->shape.setPosition(this->position.x - this->radius, this->position.y - this->radius);
 	checkCollisions();
+}
+
+void Particle::accelerate(sf::Vector2f accel) {
+	acceleration += accel;
 }
 
 bool Particle::collidesWith(const Particle& other) const {
@@ -32,15 +43,25 @@ bool Particle::collidesWith(const Particle& other) const {
 
 void Particle::checkCollisions() {
 	if (this->position.x + this->radius > 500 || this->position.x - this->radius < 0) {
+		sf::Vector2f tmp = position;
+
 		this->position.x = std::max(this->position.x, this->radius);
 		this->position.x = std::min(this->position.x, 500.f - this->radius);
+
+		position.x = oldPosition.x;
+		oldPosition.x = tmp.x;
 		this->velocity.x *= -1;
 	}
 
 	if (this->position.y + this->radius > 500 || this->position.y - this->radius < 0) {
+		sf::Vector2f tmp = position;
+
 		this->position.y = std::max(this->position.y, this->radius);
 		this->position.y = std::min(this->position.y, 500.f - this->radius);
+
 		this->velocity.y *= -1;
+		position.y = oldPosition.y;
+		oldPosition.y = tmp.y;
 	}
 }
 
@@ -48,19 +69,18 @@ void Particle::draw() const {
 	// draw stuff here (put in render class to centralize in case of changing renderer?)
 }
 
-
 sf::CircleShape Particle::getShape() const {
-	return this->shape;
+	return shape;
 }
 
 sf::Vector2f Particle::getVelocity() const {
-	return this->velocity;
+	return position - oldPosition;
 }
 
 void Particle::setVelocity(sf::Vector2f newVelocity) {
-	this->velocity = newVelocity;
+	oldPosition = position - newVelocity;
 }
 
 float Particle::getMass() const {
-	return this->mass;
+	return mass;
 }

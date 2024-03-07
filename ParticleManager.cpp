@@ -14,7 +14,7 @@ void ParticleManager::addParticles(int n) {
 				std::rand() % 300 + 50,
 				0.03f * 75, 
 				0.04f * 75,
-				30, 
+				5, 
 				10));
 	}
 }
@@ -45,33 +45,31 @@ int ParticleManager::countParticles() const {
 
 void ParticleManager::update(float dt) {
 	// Update particles
-	updateParticles();
+	updateParticles(dt);
 
 	// Apply gravity
 	applyGravity(dt);
 
 	// Apply air resistance
-	applyAirResistance(dt);
+	//applyAirResistance(dt);
 
 	// Check for collisions
-	checkCollisions();
+	//checkCollisions();
 
 	// Draw particles
 }
 
-void ParticleManager::updateParticles() const{
+void ParticleManager::updateParticles(float dt) const{
 	for (auto const& particle : particles)
-		particle->update();
+		particle->update(dt);
 
 }
 
 void ParticleManager::applyGravity(float dt) const {
-	const sf::Vector2f gravity(0.f, 9.8f);  // Gravity acceleration (in pixels/s^2)
+	const sf::Vector2f gravity(0.f, 9.8f*100);  // Gravity acceleration (in pixels/s^2)
 
 	for (auto const& particle : particles) {
-		sf::Vector2f velocity = particle->getVelocity();
-		velocity += gravity * dt;
-		particle->setVelocity(velocity);
+		particle->accelerate(gravity);
 	}
 }
 
