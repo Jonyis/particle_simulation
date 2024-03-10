@@ -3,7 +3,7 @@
 
 class Particle {
 public:
-	Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass);
+	Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass, float elasticity);
 
 	void update(float timeStep);
 
@@ -27,6 +27,8 @@ public:
 
 	float getMass() const;
 
+	float getElasticity() const;
+
 	void accelerate(sf::Vector2f accel);
 
 
@@ -37,6 +39,7 @@ private:
 	sf::Vector2f acceleration = { 0.f, 0.f };
 	float radius;
 	float mass;
+	float elasticity = 1.f;
 	sf::CircleShape shape;
 
 	void checkCollisions();

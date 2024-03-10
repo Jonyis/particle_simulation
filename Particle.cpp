@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(float x, float y, float vx, float vy, float radius, float mass)
-	: position(x, y), velocity(vx, vy), radius(radius), mass(mass) {
+Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity)
+	: position(x, y), velocity(vx, vy), radius(radius), mass(mass), elasticity(elasticity) {
 	if (radius <= 0) {
 		throw std::invalid_argument("Radius must be positive");
 	}
@@ -95,4 +95,8 @@ float Particle::getRadius() const {
 
 void Particle::setRadius(float newRadius) {
 	radius = newRadius;
+}
+
+float Particle::getElasticity() const {
+	return elasticity;
 }

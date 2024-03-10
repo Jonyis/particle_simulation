@@ -8,13 +8,19 @@ void Circle::bounceParticle(Particle& particle) {
 
     float distance_sqrd = (relPos.x * relPos.x + relPos.y * relPos.y);
 
+    float radiusDiff = radius - particle.getRadius();
+    float radius_sqrd = (radiusDiff * radiusDiff);
+
     // If the particle is at the boundary of the circle
     if (distance_sqrd >= radius_sqrd) {
         float length = std::sqrt(distance_sqrd);
         sf::Vector2f direction = relPos / length;
 
-        // Reverse the direction of the particle
-        particle.setVelocity(-direction);
+        // Move the particle to the boundary of the circle
+        particle.setPosition(center + direction * radiusDiff);
+
+        // If should bounce -> Reverse the direction of the particle
+        //particle.setVelocity(-direction * particle.getElasticity());
     }
 }
 
