@@ -17,7 +17,8 @@ void ParticleManager::addParticles(int n) {
 				0.03f * 75, 
 				0.04f * 75,
 				5, 
-				10));
+				10,
+				0.f));
 	}
 }
 

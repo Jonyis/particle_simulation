@@ -10,7 +10,8 @@ void Rectangle::bounceParticle(Particle& particle) {
 		sf::Vector2f oldPos = pos - vel;
 
 		particle.setPosition({ oldPos.x, pos.y });
-		particle.setVelocity({ -vel.x, vel.y });
+		sf::Vector2f newVel = { -vel.x, vel.y };
+		particle.setVelocity(newVel * particle.getElasticity());
 	}
 
 	if (pos.y + radius > height || pos.y - radius < 0) {
@@ -18,7 +19,8 @@ void Rectangle::bounceParticle(Particle& particle) {
 		sf::Vector2f oldPos = pos - vel;
 
 		particle.setPosition({ pos.x, oldPos.y });
-		particle.setVelocity({ vel.x, -vel.y });
+		sf::Vector2f newVel = { vel.x, -vel.y };
+		particle.setVelocity(newVel * particle.getElasticity());
 	}
 }
 
