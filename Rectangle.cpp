@@ -1,0 +1,28 @@
+#include "Rectangle.h"
+
+Rectangle::Rectangle(double width, double height) : width(width), height(height) {}
+
+void Rectangle::bounceParticle(Particle& particle) {
+	sf::Vector2f pos = particle.getPosition();
+	float radius = particle.getRadius();
+	if (pos.x + radius > width || pos.x - radius < 0) {
+		sf::Vector2f vel = particle.getVelocity();
+		sf::Vector2f oldPos = pos - vel;
+
+		particle.setPosition({ oldPos.x, pos.y });
+		particle.setVelocity({ -vel.x, vel.y });
+	}
+
+	if (pos.y + radius > height || pos.y - radius < 0) {
+		sf::Vector2f vel = particle.getVelocity();
+		sf::Vector2f oldPos = pos - vel;
+
+		particle.setPosition({ pos.x, oldPos.y });
+		particle.setVelocity({ vel.x, -vel.y });
+	}
+}
+
+void Rectangle::draw(sf::RenderWindow& window) {
+	// Implement the logic to draw the rectangle
+	return;
+}	

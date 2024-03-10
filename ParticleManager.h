@@ -1,12 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include "Particle.h"
+#include "IShape.h"
 #include <iostream>
 #include <vector>
 #include <memory>
 
 class ParticleManager {
 public:
-    explicit ParticleManager(int n);
+    explicit ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape);
 
     void addParticles(int n);
 
@@ -25,6 +26,8 @@ public:
     void drawParticles(sf::RenderWindow& window) const;
 
 private:
+    std::unique_ptr<IShape> boundingShape;
+
     std::vector<std::unique_ptr<Particle>> particles;
 
     void updateParticles(float dt) const;

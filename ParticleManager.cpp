@@ -1,8 +1,10 @@
+#include "IShape.h"
 #include "ParticleManager.h"
 
-ParticleManager::ParticleManager(int n) {
+ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape) {
 	particles.reserve(n);
 	addParticles(n);
+	boundingShape = std::move(_boundingShape);
 }
 
 void ParticleManager::addParticles(int n) {
@@ -60,13 +62,14 @@ void ParticleManager::update(float dt) {
 }
 
 void ParticleManager::updateParticles(float dt) const{
-	for (auto const& particle : particles)
+	for (auto const& particle : particles) {
 		particle->update(dt);
-
+		boundingShape->bounceParticle(*particle);
+	}
 }
 
 void ParticleManager::applyGravity(float dt) const {
-	const sf::Vector2f gravity(0.f, 9.8f*100);  // Gravity acceleration (in pixels/s^2)
+	const sf::Vector2f gravity(0.f, 9.8f*100);
 
 	for (auto const& particle : particles) {
 		particle->accelerate(gravity);

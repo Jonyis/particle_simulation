@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include "Rectangle.h"
 
 
 void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool& isPaused);
@@ -16,10 +17,11 @@ int main()
     
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(500, 500), "", sf::Style::Default, settings);
     window.setFramerateLimit(120);
 
-    ParticleManager particleManager(n);
+    std::unique_ptr<IShape> boundingShape = std::make_unique<Rectangle>(500, 500);
+    ParticleManager particleManager(n, boundingShape);
     bool isPaused = false;
 
     while (window.isOpen())

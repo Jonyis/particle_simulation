@@ -27,7 +27,7 @@ void Particle::update(float timeStep) {
 	acceleration = { 0.f, 0.f };
 
 	this->shape.setPosition(this->position.x - this->radius, this->position.y - this->radius);
-	checkCollisions();
+	//checkCollisions();
 }
 
 void Particle::accelerate(sf::Vector2f accel) {
@@ -43,25 +43,21 @@ bool Particle::collidesWith(const Particle& other) const {
 
 void Particle::checkCollisions() {
 	if (this->position.x + this->radius > 500 || this->position.x - this->radius < 0) {
-		sf::Vector2f tmp = position;
+		sf::Vector2f pos = getPosition();
+		sf::Vector2f vel = getVelocity();
+		sf::Vector2f oldPos = pos - vel;
 
-		this->position.x = std::max(this->position.x, this->radius);
-		this->position.x = std::min(this->position.x, 500.f - this->radius);
-
-		position.x = oldPosition.x;
-		oldPosition.x = tmp.x;
-		this->velocity.x *= -1;
+		setPosition({ oldPos.x, pos.y });
+		setVelocity({ -vel.x, vel.y });
 	}
 
 	if (this->position.y + this->radius > 500 || this->position.y - this->radius < 0) {
-		sf::Vector2f tmp = position;
+		sf::Vector2f pos = getPosition();
+		sf::Vector2f vel = getVelocity();
+		sf::Vector2f oldPos = pos - vel;
 
-		this->position.y = std::max(this->position.y, this->radius);
-		this->position.y = std::min(this->position.y, 500.f - this->radius);
-
-		this->velocity.y *= -1;
-		position.y = oldPosition.y;
-		oldPosition.y = tmp.y;
+		setPosition({ pos.x, oldPos.y });
+		setVelocity({ vel.x, -vel.y });
 	}
 }
 
@@ -77,10 +73,26 @@ sf::Vector2f Particle::getVelocity() const {
 	return position - oldPosition;
 }
 
+sf::Vector2f Particle::getPosition() const {
+	return position;
+}
+
+void Particle::setPosition(sf::Vector2f newPosition) {
+	position = newPosition;
+}
+
 void Particle::setVelocity(sf::Vector2f newVelocity) {
 	oldPosition = position - newVelocity;
 }
 
 float Particle::getMass() const {
 	return mass;
+}
+
+float Particle::getRadius() const {
+	return radius;
+}
+
+void Particle::setRadius(float newRadius) {
+	radius = newRadius;
 }
