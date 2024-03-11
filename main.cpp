@@ -6,7 +6,8 @@
 #include <cstdlib>
 #include "Rectangle.h"
 #include "Circle.h"
-
+#include <sstream>
+#include <iomanip>
 
 void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool& isPaused);
 
@@ -21,9 +22,27 @@ int main()
     sf::RenderWindow window(sf::VideoMode(500*2, 2*500), "", sf::Style::Default, settings);
     window.setFramerateLimit(120);
 
+    sf::Font font;
+    if (!font.loadFromFile("resources/fonts/arial.ttf"))
+    {
+        return -1;
+    }
+    sf::Text fpsText;
+    fpsText.setFont(font);
+    fpsText.setCharacterSize(24);
+    fpsText.setFillColor(sf::Color::White);
+    fpsText.setPosition(10, 10);
+
+    sf::Clock clock;
+
     std::unique_ptr<IShape> boundingShape = std::make_unique<Circle>(500, sf::Vector2f{300, 300});
     ParticleManager particleManager(n, boundingShape);
+    
     bool isPaused = false;
+
+    float frameTimes = 0.0f;
+    int frameCount = 0;
+    float averageFPS = 120.0f;
 
     while (window.isOpen())
     {
@@ -32,8 +51,28 @@ int main()
         if (!isPaused)
             particleManager.update(1.f / 120.f);
 
+        float deltaTime = clock.restart().asSeconds();
+        frameTimes += deltaTime;
+        frameCount++;
+        if (frameCount == 10) // calculate average every N frames
+        {
+            averageFPS = (float)frameCount / frameTimes;
+
+            // reset for the next 100 frames
+            frameTimes = 0.0f;
+            frameCount = 0;
+        }
+
+        std::stringstream ss;
+        float fps = 1.f / deltaTime;
+        ss << "Particle count : " << particleManager.countParticles() << 
+            " | Average FPS: " << std::fixed << std::setprecision(0) << averageFPS << 
+            " | FPS : " << fps;
+        fpsText.setString(ss.str());
+
         window.clear();
         particleManager.drawParticles(window);
+        window.draw(fpsText);
         window.display();
     }
 
@@ -59,8 +98,11 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
             if (event.key.code == sf::Keyboard::C)
 				particleManager.addParticles(20);
         }
-        if (event.type == sf::Event::KeyPressed)
+        if (event.type == sf::Event::KeyPressed) {
             if (isPaused && event.key.code == sf::Keyboard::Right)
                 particleManager.update(1.f / 120.f);
+            if (event.key.code == sf::Keyboard::A)
+                particleManager.addParticles(20);
+        }
     }
 }
