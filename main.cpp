@@ -8,6 +8,7 @@
 #include "Circle.h"
 #include <sstream>
 #include <iomanip>
+#include "SimulationStatistics.h"
 
 void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool& isPaused);
 
@@ -38,11 +39,10 @@ int main()
     std::unique_ptr<IShape> boundingShape = std::make_unique<Circle>(500, sf::Vector2f{300, 300});
     ParticleManager particleManager(n, boundingShape);
     
+    SimulationStatistics simulationStatistics(particleManager, clock);
+
     bool isPaused = false;
 
-    float frameTimes = 0.0f;
-    int frameCount = 0;
-    float averageFPS = 120.0f;
 
     while (window.isOpen())
     {
@@ -51,28 +51,11 @@ int main()
         if (!isPaused)
             particleManager.update(1.f / 120.f);
 
-        float deltaTime = clock.restart().asSeconds();
-        frameTimes += deltaTime;
-        frameCount++;
-        if (frameCount == 10) // calculate average every N frames
-        {
-            averageFPS = (float)frameCount / frameTimes;
-
-            // reset for the next 100 frames
-            frameTimes = 0.0f;
-            frameCount = 0;
-        }
-
-        std::stringstream ss;
-        float fps = 1.f / deltaTime;
-        ss << "Particle count : " << particleManager.countParticles() << 
-            " | Average FPS: " << std::fixed << std::setprecision(0) << averageFPS << 
-            " | FPS : " << fps;
-        fpsText.setString(ss.str());
+        simulationStatistics.calculateFPS();
 
         window.clear();
         particleManager.drawParticles(window);
-        window.draw(fpsText);
+        simulationStatistics.draw(window);
         window.display();
     }
 
