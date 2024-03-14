@@ -27,7 +27,6 @@ void Particle::update(float timeStep) {
 	acceleration = { 0.f, 0.f };
 
 	this->shape.setPosition(this->position.x - this->radius, this->position.y - this->radius);
-	//checkCollisions();
 }
 
 void Particle::accelerate(sf::Vector2f accel) {
@@ -39,26 +38,6 @@ bool Particle::collidesWith(const Particle& other) const {
 	float distance_sqrd = (dPos.x * dPos.x + dPos.y * dPos.y);
 	float radius_sum = radius + other.radius;
 	return distance_sqrd < (radius_sum * radius_sum);
-}
-
-void Particle::checkCollisions() {
-	if (this->position.x + this->radius > 500 || this->position.x - this->radius < 0) {
-		sf::Vector2f pos = getPosition();
-		sf::Vector2f vel = getVelocity();
-		sf::Vector2f oldPos = pos - vel;
-
-		setPosition({ oldPos.x, pos.y });
-		setVelocity({ -vel.x, vel.y });
-	}
-
-	if (this->position.y + this->radius > 500 || this->position.y - this->radius < 0) {
-		sf::Vector2f pos = getPosition();
-		sf::Vector2f vel = getVelocity();
-		sf::Vector2f oldPos = pos - vel;
-
-		setPosition({ pos.x, oldPos.y });
-		setVelocity({ vel.x, -vel.y });
-	}
 }
 
 void Particle::draw() const {
