@@ -1,6 +1,11 @@
 #include "Rectangle.h"
 
-Rectangle::Rectangle(double width, double height) : width(width), height(height) {}
+Rectangle::Rectangle(double width, double height) : width(width), height(height) {
+	this->shape = sf::RectangleShape({500.f, 500.f});
+	shape.setFillColor(sf::Color::Transparent);
+	shape.setOutlineThickness(2);
+	shape.setOutlineColor(sf::Color::Red);
+}
 
 void Rectangle::bounceParticle(Particle& particle) {
 	sf::Vector2f pos = particle.getPosition();
@@ -25,6 +30,5 @@ void Rectangle::bounceParticle(Particle& particle) {
 }
 
 void Rectangle::draw(sf::RenderWindow& window) {
-	// Implement the logic to draw the rectangle
-	return;
+	window.draw(shape);
 }	
