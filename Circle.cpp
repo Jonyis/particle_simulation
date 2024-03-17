@@ -1,6 +1,13 @@
 #include "Circle.h"
 
-Circle::Circle(float radius, sf::Vector2f center) : radius(radius), center(center) {}
+Circle::Circle(float radius, sf::Vector2f center) : radius(radius), center(center) {
+    this->shape = sf::CircleShape(radius);
+    shape.setPosition({center.x - radius, center.y - radius});
+    shape.setFillColor(sf::Color::Transparent);
+    shape.setOutlineThickness(2);
+    shape.setOutlineColor(sf::Color::Red);
+    shape.setPointCount(100);
+}
 
 void Circle::bounceParticle(Particle& particle) {
     // Calculate the distance from the particle to the center of the circle
@@ -25,6 +32,5 @@ void Circle::bounceParticle(Particle& particle) {
 }
 
 void Circle::draw(sf::RenderWindow& window) {
-	// Implement the logic to draw the circle
-    return; 
+    window.draw(shape);
 }
