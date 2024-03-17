@@ -31,6 +31,8 @@ private:
 
     std::vector<std::unique_ptr<Particle>> particles;
 
+    sf::Texture particleTexture;
+
     void updateParticles(float dt) const;
 
     void applyGravity(float dt) const;

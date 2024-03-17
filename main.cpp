@@ -2,12 +2,8 @@
 #include "Particle.h"
 #include "ParticleManager.h"
 #include <iostream>
-#include <vector>
-#include <cstdlib>
 #include "Rectangle.h"
 #include "Circle.h"
-#include <sstream>
-#include <iomanip>
 #include "SimulationStatistics.h"
 
 void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManager, bool& isPaused);
@@ -23,27 +19,17 @@ int main()
     sf::RenderWindow window(sf::VideoMode(500*2, 2*500), "", sf::Style::Default, settings);
     window.setFramerateLimit(120);
 
-    sf::Font font;
-    if (!font.loadFromFile("resources/fonts/arial.ttf"))
-    {
-        return -1;
-    }
-    sf::Text fpsText;
-    fpsText.setFont(font);
-    fpsText.setCharacterSize(24);
-    fpsText.setFillColor(sf::Color::White);
-    fpsText.setPosition(10, 10);
-
     sf::Clock clock;
 
-    std::unique_ptr<IShape> boundingShape = std::make_unique<Circle>(500, sf::Vector2f{300, 300});
-    ParticleManager particleManager(n, boundingShape);
+    std::unique_ptr<IShape> boundingShapeCirc = std::make_unique<Circle>(500, sf::Vector2f{ 300, 300 });
+    std::unique_ptr<IShape> boundingShapeRect = std::make_unique<Rectangle>(500, 500);
+    ParticleManager particleManager(n, boundingShapeRect);
     
     SimulationStatistics simulationStatistics(particleManager, clock);
 
     bool isPaused = false;
 
-
+    
     while (window.isOpen())
     {
         handleWindowEvents(window, particleManager, isPaused);

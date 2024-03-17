@@ -3,15 +3,13 @@
 
 class Particle {
 public:
-	Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass, float elasticity);
+	Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass, float elasticity, const sf::Texture& texture);
 
 	void update(float timeStep);
 
 	bool collidesWith(const Particle& other) const;
 
-	void draw() const;
-
-	sf::CircleShape getShape() const;
+	void draw(sf::RenderWindow& window) const;
 
 	sf::Vector2f getPosition() const;
 
@@ -40,8 +38,6 @@ private:
 	float radius;
 	float mass;
 	float elasticity = 1.f;
-	sf::CircleShape shape;
-
-	void checkCollisions();
+	sf::Sprite sprite;
 };
 
