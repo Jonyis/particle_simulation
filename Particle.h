@@ -33,7 +33,6 @@ public:
 private:
 	sf::Vector2f position;
 	sf::Vector2f oldPosition = position;
-	sf::Vector2f velocity;
 	sf::Vector2f acceleration = { 0.f, 0.f };
 	float radius;
 	float mass;
