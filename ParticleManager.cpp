@@ -22,13 +22,26 @@ void ParticleManager::addParticles(int n) {
 				0.04f * 75,
 				20, 
 				10,
-				0.f,
+				1.f,
 				particleTexture));
 	}
 }
 
 void ParticleManager::addParticle(std::unique_ptr<Particle> particle) {
 	particles.push_back(std::move(particle));
+}
+
+void ParticleManager::addParticle(sf::Vector2f pos) {
+	addParticle(
+		std::make_unique<Particle>(
+			pos.x,
+			pos.y,
+			0,
+			0,
+			20,
+			10,
+			1.f,
+			particleTexture));
 }
 
 void ParticleManager::removeParticle(int index) {
@@ -118,6 +131,18 @@ void ParticleManager::bounceOff(int i, int j) {
 
 	particles[i]->setVelocity(newV1);
 	particles[j]->setVelocity(newV2);
+
+	// Calculate collision normal
+	sf::Vector2f collisionNormal = particles[i]->getPosition() - particles[j]->getPosition();
+	float distance = std::sqrt(collisionNormal.x * collisionNormal.x + collisionNormal.y * collisionNormal.y);
+
+	// Normalize the collision normal
+	collisionNormal /= distance;
+
+	// Add a small displacement in the direction of the collision normal
+	float displacement = 0;//(particles[i]->getRadius() + particles[j]->getRadius()) / 2; //1.0f; 
+	particles[i]->setPosition(particles[i]->getPosition() + collisionNormal * displacement);
+	particles[j]->setPosition(particles[j]->getPosition() - collisionNormal * displacement);
 }
 
 void ParticleManager::drawParticles(sf::RenderWindow& window) const {

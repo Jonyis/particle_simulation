@@ -14,6 +14,8 @@ public:
 
     void addParticle(std::unique_ptr<Particle> particle);
 
+    void addParticle(sf::Vector2f pos);
+
     void removeParticle(int index);
 
     Particle* getParticle(int index);
