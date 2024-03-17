@@ -1,7 +1,7 @@
 #include "Particle.h"
 
 Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity, const sf::Texture& texture)
-	: position(x, y), velocity(vx, vy), radius(radius), mass(mass), elasticity(elasticity) {
+	: position(x, y), radius(radius), mass(mass), elasticity(elasticity) {
 	if (radius <= 0) {
 		throw std::invalid_argument("Radius must be positive");
 	}
@@ -13,6 +13,7 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 	}
 	this->radius = radius;
 	this->mass = mass;
+	oldPosition = position - sf::Vector2f(vx, vy);
 
 	sprite.setTexture(texture);
 	sprite.setColor(sf::Color(255, 255, 255, 255));
