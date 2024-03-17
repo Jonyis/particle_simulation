@@ -2,6 +2,10 @@
 #include "ParticleManager.h"
 
 ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape) {
+	if (!this->particleTexture.loadFromFile("resources/images/circle.png")) {
+		throw std::runtime_error("Failed to load texture");
+	}
+	
 	particles.reserve(n);
 	addParticles(n);
 	boundingShape = std::move(_boundingShape);
@@ -16,9 +20,10 @@ void ParticleManager::addParticles(int n) {
 				std::rand() % 300 + 50,
 				0.03f * 75, 
 				0.04f * 75,
-				5, 
+				20, 
 				10,
-				0.f));
+				0.f,
+				particleTexture));
 	}
 }
 
@@ -116,6 +121,7 @@ void ParticleManager::bounceOff(int i, int j) {
 }
 
 void ParticleManager::drawParticles(sf::RenderWindow& window) const {
+	boundingShape->draw(window);
 	for (auto const& particle : particles)
-		window.draw(particle->getShape());
+		particle->draw(window);
 }

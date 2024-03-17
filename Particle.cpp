@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity)
+Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity, const sf::Texture& texture)
 	: position(x, y), velocity(vx, vy), radius(radius), mass(mass), elasticity(elasticity) {
 	if (radius <= 0) {
 		throw std::invalid_argument("Radius must be positive");
@@ -8,13 +8,16 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 	if (mass <= 0) {
 		throw std::invalid_argument("Mass must be positive");
 	}
+	if (elasticity < 0) {
+		throw std::invalid_argument("Elasticity must be positive");
+	}
 	this->radius = radius;
 	this->mass = mass;
 
-	this->shape = sf::CircleShape(radius);
-	shape.setFillColor(sf::Color::Green);
-	shape.setOutlineThickness(-2);
-	shape.setOutlineColor(sf::Color::Red);
+	sprite.setTexture(texture);
+	sprite.setColor(sf::Color(255, 255, 255, 255));
+	sprite.setScale(radius*1.f/256, radius * 1.f / 256); // 256 is the size of the texture
+	sprite.setPosition(this->position);
 }
 
 void Particle::update(float timeStep) {
@@ -26,7 +29,7 @@ void Particle::update(float timeStep) {
 	
 	acceleration = { 0.f, 0.f };
 
-	this->shape.setPosition(this->position.x - this->radius, this->position.y - this->radius);
+	this->sprite.setPosition(this->position);
 }
 
 void Particle::accelerate(sf::Vector2f accel) {
@@ -40,12 +43,8 @@ bool Particle::collidesWith(const Particle& other) const {
 	return distance_sqrd < (radius_sum * radius_sum);
 }
 
-void Particle::draw() const {
-	// draw stuff here (put in render class to centralize in case of changing renderer?)
-}
-
-sf::CircleShape Particle::getShape() const {
-	return shape;
+void Particle::draw(sf::RenderWindow& window) const {
+	window.draw(this->sprite);
 }
 
 sf::Vector2f Particle::getVelocity() const {
