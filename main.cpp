@@ -73,5 +73,14 @@ void handleWindowEvents(sf::RenderWindow& window, ParticleManager& particleManag
             if (event.key.code == sf::Keyboard::A)
                 particleManager.addParticles(20);
         }
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+				particleManager.addParticle({ (float)event.mouseButton.x, (float)event.mouseButton.y });
+			}
+            if (event.mouseButton.button == sf::Mouse::Right) {
+                particleManager.addParticles(100);
+
+            }
+		}
     }
 }
