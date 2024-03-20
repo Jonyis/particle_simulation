@@ -6,6 +6,8 @@ ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape)
 		throw std::runtime_error("Failed to load texture");
 	}
 	
+	particleTexture.setSmooth(true);
+
 	particles.reserve(n);
 	addParticles(n);
 	boundingShape = std::move(_boundingShape);
