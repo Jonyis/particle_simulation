@@ -17,8 +17,8 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 
 	sprite.setTexture(texture);
 	sprite.setColor(sf::Color(255, 255, 255, 255));
-	sprite.setScale(radius*1.f/256, radius * 1.f / 256); // 256 is the size of the texture
-	sprite.setPosition(this->position);
+	sprite.setScale(radius * 2.f/256, radius * 2.f / 256); // 256 is the size of the texture
+	sprite.setPosition(position.x - radius, position.y - radius);
 }
 
 void Particle::update(float timeStep) {
@@ -30,7 +30,7 @@ void Particle::update(float timeStep) {
 	
 	acceleration = { 0.f, 0.f };
 
-	this->sprite.setPosition(this->position);
+	sprite.setPosition(position.x - radius, position.y - radius);
 }
 
 void Particle::accelerate(sf::Vector2f accel) {
