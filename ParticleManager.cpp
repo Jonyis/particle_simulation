@@ -2,12 +2,6 @@
 #include "ParticleManager.h"
 
 ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, Renderer renderer) : renderer(renderer) {
-	if (!this->particleTexture.loadFromFile("resources/images/circle.png")) {
-		throw std::runtime_error("Failed to load texture");
-	}
-
-	particleTexture.setSmooth(true);
-
 	particles.reserve(n);
 	addParticles(n);
 	boundingShape = std::move(_boundingShape);
@@ -24,8 +18,7 @@ void ParticleManager::addParticles(int n) {
 				0.04f * 75,
 				20, 
 				10,
-				1.f,
-				particleTexture));
+				1.f));
 	}
 }
 
@@ -42,8 +35,7 @@ void ParticleManager::addParticle(sf::Vector2f pos) {
 			0,
 			20,
 			10,
-			1.f,
-			particleTexture));
+			1.f));
 }
 
 void ParticleManager::removeParticle(int index) {
