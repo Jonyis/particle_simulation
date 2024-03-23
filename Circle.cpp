@@ -34,6 +34,6 @@ void Circle::bounceParticle(Particle& particle) {
     }
 }
 
-void Circle::draw(sf::RenderWindow& window) {
+void Circle::draw(sf::RenderWindow& window) const {
     window.draw(shape);
 }

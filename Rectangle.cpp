@@ -29,6 +29,6 @@ void Rectangle::bounceParticle(Particle& particle) {
 	}
 }
 
-void Rectangle::draw(sf::RenderWindow& window) {
+void Rectangle::draw(sf::RenderWindow& window) const {
 	window.draw(shape);
 }	

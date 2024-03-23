@@ -1,11 +1,11 @@
 #include "IShape.h"
 #include "ParticleManager.h"
 
-ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape) {
+ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, Renderer renderer) : renderer(renderer) {
 	if (!this->particleTexture.loadFromFile("resources/images/circle.png")) {
 		throw std::runtime_error("Failed to load texture");
 	}
-	
+
 	particleTexture.setSmooth(true);
 
 	particles.reserve(n);
@@ -147,8 +147,6 @@ void ParticleManager::bounceOff(int i, int j) {
 	particles[j]->setPosition(particles[j]->getPosition() - collisionNormal * displacement);
 }
 
-void ParticleManager::drawParticles(sf::RenderWindow& window) const {
-	boundingShape->draw(window);
-	for (auto const& particle : particles)
-		particle->draw(window);
+void ParticleManager::drawParticles() {
+	renderer.drawAll(*boundingShape, particles);
 }

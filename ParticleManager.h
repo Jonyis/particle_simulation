@@ -5,10 +5,11 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include "Renderer.h"
 
 class ParticleManager {
 public:
-    explicit ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape);
+    explicit ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, Renderer renderer);
 
     void addParticles(int n);
 
@@ -26,7 +27,7 @@ public:
 
     void update(float dt);
 
-    void drawParticles(sf::RenderWindow& window) const;
+    void drawParticles();
 
 private:
     std::unique_ptr<IShape> boundingShape;
@@ -34,6 +35,8 @@ private:
     std::vector<std::unique_ptr<Particle>> particles;
 
     sf::Texture particleTexture;
+
+    Renderer renderer;
 
     void updateParticles(float dt) const;
 

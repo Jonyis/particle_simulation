@@ -11,5 +11,5 @@ public:
 
     void bounceParticle(Particle& particle) override;
 
-    void draw(sf::RenderWindow& window) override;
+    void draw(sf::RenderWindow& window) const override;
 };
