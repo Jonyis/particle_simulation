@@ -8,6 +8,10 @@ Renderer::Renderer(sf::RenderWindow& _window) : window(_window) {
 	particleTexture.setSmooth(true);
 }
 
+void Renderer::clear() {
+	particleVertices.clear();
+}
+
 void Renderer::drawAll(const IShape& boundingShape, const std::vector<std::unique_ptr<Particle>>& particles) {
 	particleVertices.resize(particles.size() * 4 + 4);
 	drawParticles(particles);

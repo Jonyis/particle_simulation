@@ -1,7 +1,7 @@
 #include "IShape.h"
 #include "ParticleManager.h"
 
-ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, Renderer renderer) : renderer(renderer) {
+ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, const Renderer& renderer) : renderer(renderer) {
 	particles.reserve(n);
 	addParticles(n);
 	boundingShape = std::move(_boundingShape);
@@ -52,6 +52,7 @@ Particle* ParticleManager::getParticle(int index) {
 
 void ParticleManager::clearParticles() {
 	particles.clear();
+	renderer.clear();
 }
 
 int ParticleManager::countParticles() const {

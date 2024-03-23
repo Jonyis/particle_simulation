@@ -9,7 +9,7 @@
 
 class ParticleManager {
 public:
-    explicit ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, Renderer renderer);
+    explicit ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, const Renderer& renderer);
 
     void addParticles(int n);
 

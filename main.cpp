@@ -23,7 +23,7 @@ int main()
 
     std::unique_ptr<IShape> boundingShapeCirc = std::make_unique<Circle>(250, sf::Vector2f{ 250, 250 });
     std::unique_ptr<IShape> boundingShapeRect = std::make_unique<Rectangle>(500, 500);
-    Renderer renderer = Renderer(window);
+    auto renderer = Renderer(window);
     ParticleManager particleManager(n, boundingShapeCirc, renderer);
     
     SimulationStatistics simulationStatistics(particleManager, clock);
