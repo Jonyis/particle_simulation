@@ -22,5 +22,6 @@ private:
 	sf::RenderWindow& window;
 	sf::Texture particleTexture;
 	sf::VertexArray particleVertices;
+	sf::Vector2f particleTextureSize;
 };
 
