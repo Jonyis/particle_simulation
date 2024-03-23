@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity, const sf::Texture& texture)
+Particle::Particle(float x, float y, float vx, float vy, float radius, float mass, float elasticity)
 	: position(x, y), radius(radius), mass(mass), elasticity(elasticity) {
 	if (radius <= 0) {
 		throw std::invalid_argument("Radius must be positive");
@@ -14,11 +14,6 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 	this->radius = radius;
 	this->mass = mass;
 	oldPosition = position - sf::Vector2f(vx, vy);
-
-	sprite.setTexture(texture);
-	sprite.setColor(sf::Color(255, 255, 255, 255));
-	sprite.setScale(radius * 2.f/256, radius * 2.f / 256); // 256 is the size of the texture
-	sprite.setPosition(position.x - radius, position.y - radius);
 }
 
 void Particle::update(float timeStep) {
@@ -29,8 +24,6 @@ void Particle::update(float timeStep) {
 	position = position + _velocity + acceleration * timeStep * timeStep;
 	
 	acceleration = { 0.f, 0.f };
-
-	sprite.setPosition(position.x - radius, position.y - radius);
 }
 
 void Particle::accelerate(sf::Vector2f accel) {
@@ -42,10 +35,6 @@ bool Particle::collidesWith(const Particle& other) const {
 	float distance_sqrd = (dPos.x * dPos.x + dPos.y * dPos.y);
 	float radius_sum = radius + other.radius;
 	return distance_sqrd < (radius_sum * radius_sum);
-}
-
-void Particle::draw(sf::RenderWindow& window) const {
-	window.draw(this->sprite);
 }
 
 sf::Vector2f Particle::getVelocity() const {

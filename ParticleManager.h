@@ -34,8 +34,6 @@ private:
 
     std::vector<std::unique_ptr<Particle>> particles;
 
-    sf::Texture particleTexture;
-
     Renderer renderer;
 
     void updateParticles(float dt) const;
