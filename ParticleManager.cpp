@@ -83,7 +83,7 @@ void ParticleManager::updateParticles(float dt) const{
 }
 
 void ParticleManager::applyGravity(float dt) const {
-	const sf::Vector2f gravity(0.f, 9.8f*100);
+	static const sf::Vector2f gravity(0.f, 9.8f*100);
 
 	for (auto const& particle : particles) {
 		particle->accelerate(gravity);
@@ -91,7 +91,7 @@ void ParticleManager::applyGravity(float dt) const {
 }
 
 void ParticleManager::applyAirResistance(float dt) const {
-	const float airResistance = 0.1f;  // Air resistance coefficient
+	static const float airResistance = 0.1f;  // Air resistance coefficient
 
 	for (auto& particle : particles) {
 		sf::Vector2f velocity = particle->getVelocity();

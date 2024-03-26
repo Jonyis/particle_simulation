@@ -13,7 +13,6 @@ void Circle::bounceParticle(Particle& particle) {
     // Calculate the distance from the particle to the center of the circle
     sf::Vector2f relPos = particle.getPosition() - center;
     sf::Vector2f vel = particle.getVelocity();
-    float vel_mag = std::sqrt(vel.x * vel.x + vel.y * vel.y);
 
     float distance_sqrd = (relPos.x * relPos.x + relPos.y * relPos.y);
 
@@ -29,6 +28,7 @@ void Circle::bounceParticle(Particle& particle) {
         particle.setPosition(center + direction * radiusDiff);
 
         // Bounce particle off the circle's surface
+        float vel_mag = std::sqrt(vel.x * vel.x + vel.y * vel.y);
         particle.setVelocity(-direction * vel_mag * particle.getElasticity());
 
     }
