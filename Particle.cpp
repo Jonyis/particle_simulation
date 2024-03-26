@@ -11,8 +11,7 @@ Particle::Particle(float x, float y, float vx, float vy, float radius, float mas
 	if (elasticity < 0) {
 		throw std::invalid_argument("Elasticity must be positive");
 	}
-	this->radius = radius;
-	this->mass = mass;
+
 	oldPosition = position - sf::Vector2f(vx, vy);
 }
 
