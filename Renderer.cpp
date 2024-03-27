@@ -1,7 +1,7 @@
 #include "Renderer.h"
 
 Renderer::Renderer(sf::RenderWindow& _window) : window(_window) {
-	if (!this->particleTexture.loadFromFile("resources/images/circle.png")) {
+	if (!this->particleTexture.loadFromFile("resources/images/circle3.png")) {
 		throw std::runtime_error("Failed to load texture");
 	}
 	particleVertices.setPrimitiveType(sf::Quads);

@@ -1,4 +1,3 @@
-#include "IShape.h"
 #include "ParticleManager.h"
 
 ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, const Renderer& renderer) : renderer(renderer) {
@@ -12,8 +11,8 @@ void ParticleManager::addParticles(int n) {
 		
 		addParticle(
 			std::make_unique<Particle>(
-				std::rand() % 300 + 50, 
-				std::rand() % 300 + 50,
+				std::rand() % 300 + 200, 
+				std::rand() % 300 + 200,
 				0.03f * 75, 
 				0.04f * 75,
 				20, 
