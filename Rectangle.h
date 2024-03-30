@@ -3,7 +3,7 @@
 
 class Rectangle : public IShape {
 public:
-    Rectangle(float width, float height);
+    Rectangle(float width, float height, sf::Vector2f center);
 
     void bounceParticle(Particle& particle) override;
 
@@ -14,6 +14,7 @@ public:
 private:
     float width;
     float height;
+    sf::Vector2f center;
     sf::RectangleShape shape;
 
     void bounce(Particle& particle, const sf::Vector2f& newPos, const sf::Vector2f& newVel) const;
