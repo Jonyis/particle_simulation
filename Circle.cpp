@@ -1,7 +1,6 @@
 #include "Circle.h"
 
-Circle::Circle(float radius, sf::Vector2f center) : radius(radius), center(center) {
-    this->shape = sf::CircleShape(radius);
+Circle::Circle(float radius, sf::Vector2f center) : radius(radius), center(center), shape(radius) {
     shape.setPosition({center.x - radius, center.y - radius});
     shape.setFillColor(sf::Color::Transparent);
     shape.setOutlineThickness(2);
@@ -29,8 +28,10 @@ void Circle::bounceParticle(Particle& particle) {
 
         // Bounce particle off the circle's surface
         float vel_mag = std::sqrt(vel.x * vel.x + vel.y * vel.y);
-        particle.setVelocity(-direction * vel_mag * particle.getElasticity());
+        float elasticity = particle.getElasticity();
 
+        if (elasticity > 0)
+            particle.setVelocity(-direction * vel_mag * elasticity);
     }
 }
 

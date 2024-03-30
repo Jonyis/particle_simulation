@@ -2,14 +2,17 @@
 #include "IShape.h"
 
 class Rectangle : public IShape {
-private:
-    double width;
-    double height;
-    sf::RectangleShape shape;
 public:
-    Rectangle(double width, double height);
+    Rectangle(float width, float height);
 
     void bounceParticle(Particle& particle) override;
 
     void draw(sf::RenderWindow& window) const override;
+
+private:
+    float width;
+    float height;
+    sf::RectangleShape shape;
+
+    void bounce(Particle& particle, const sf::Vector2f& newPos, const sf::Vector2f& newVel) const;
 };
