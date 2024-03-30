@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 #include "Particle.h"
 #include "IShape.h"
 

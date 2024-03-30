@@ -12,4 +12,7 @@ public:
     void bounceParticle(Particle& particle) override;
 
     void draw(sf::RenderWindow& window) const override;
+
+    sf::Vector2f getRandomPosition() const override;
+
 };

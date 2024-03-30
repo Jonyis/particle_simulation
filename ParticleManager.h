@@ -2,9 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Particle.h"
 #include "IShape.h"
-#include <iostream>
 #include <vector>
-#include <memory>
 #include "Renderer.h"
 
 class ParticleManager {
