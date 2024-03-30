@@ -20,7 +20,7 @@ void Particle::update(float timeStep) {
 	sf::Vector2f _velocity = position - oldPosition;
 	oldPosition = position;
 
-	position = position + _velocity + acceleration * timeStep * timeStep;
+	position += _velocity + acceleration * timeStep * timeStep;
 	
 	acceleration = { 0.f, 0.f };
 }
