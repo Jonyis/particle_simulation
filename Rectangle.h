@@ -9,6 +9,8 @@ public:
 
     void draw(sf::RenderWindow& window) const override;
 
+    sf::Vector2f getRandomPosition() const override;
+
 private:
     float width;
     float height;

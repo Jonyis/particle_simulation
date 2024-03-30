@@ -38,3 +38,11 @@ void Circle::bounceParticle(Particle& particle) {
 void Circle::draw(sf::RenderWindow& window) const {
     window.draw(shape);
 }
+
+sf::Vector2f Circle::getRandomPosition() const {
+    float angle = static_cast<float>(rand()) / RAND_MAX * 2 * 3.14159f; // Random angle in [0, 2*pi]
+    float r = radius * std::sqrt(static_cast<float>(rand()) / RAND_MAX); // Random radius in [0, radius]
+    float x = center.x + r * std::cos(angle);
+    float y = center.y + r * std::sin(angle);
+    return { x, y };
+}

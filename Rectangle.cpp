@@ -32,3 +32,9 @@ void Rectangle::bounce(Particle& particle, const sf::Vector2f& newPos, const sf:
 void Rectangle::draw(sf::RenderWindow& window) const {
 	window.draw(shape);
 }	
+
+sf::Vector2f Rectangle::getRandomPosition() const {
+	auto x = static_cast<float>(rand() % static_cast<int>(width*0.7)) + width * 0.05f;
+	auto y = static_cast<float>(rand() % static_cast<int>(height*0.7)) + height * 0.05f;
+	return { x, y };
+}

@@ -2,17 +2,17 @@
 
 ParticleManager::ParticleManager(int n, std::unique_ptr<IShape>& _boundingShape, const Renderer& renderer) : renderer(renderer) {
 	particles.reserve(n);
-	addParticles(n);
 	boundingShape = std::move(_boundingShape);
+	addParticles(n);
 }
 
 void ParticleManager::addParticles(int n) {
 	for (int i = 0; i < n; i++) {
-		
+		sf::Vector2f pos = (*boundingShape).getRandomPosition();
 		addParticle(
 			std::make_unique<Particle>(
-				std::rand() % 300 + 200, 
-				std::rand() % 300 + 200,
+				pos.x, 
+				pos.y,
 				0.03f * 75, 
 				0.04f * 75,
 				20, 
