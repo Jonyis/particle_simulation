@@ -17,9 +17,9 @@ private:
     sf::Clock& clock;
     sf::Text fpsText;
     sf::Font font;
-    float frameTimes;
-    int frameCount;
-    float fps;
-    float averageFPS;
-    int frameRateCount;
+    float frameTimes = 0.0f;
+    int frameCount = 0;
+    float fps = 120.0f;
+    float averageFPS = 120.0f;
+    int frameRateCount = 0.0f;
 };
