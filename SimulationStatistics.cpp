@@ -3,7 +3,7 @@
 #include <iomanip>
 
 SimulationStatistics::SimulationStatistics(const ParticleManager& _particleManager, sf::Clock& _clock)
-	: particleManager(_particleManager), clock(_clock), frameTimes(0.0f), frameCount(0), averageFPS(120.0f), frameRateCount(60) {
+	: particleManager(_particleManager), clock(_clock) {
 
 	if (!font.loadFromFile("resources/fonts/arial.ttf"))
 	{
