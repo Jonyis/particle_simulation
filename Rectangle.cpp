@@ -10,21 +10,21 @@ Rectangle::Rectangle(float width, float height, sf::Vector2f center) : width(wid
 void Rectangle::bounceParticle(Particle& particle) {
 	sf::Vector2f pos = particle.getPosition();
 	float radius = particle.getRadius();
-	static const float leftBound = center.x - width / 2;
-	static const float rightBound = center.x + width / 2;
-	static const float topBound = center.y - height / 2;
-	static const float bottomBound = center.y + height / 2;
+	static const float leftBound = center.x - width / 2 + radius;
+	static const float rightBound = center.x + width / 2 - radius;
+	static const float topBound = center.y - height / 2 + radius;
+	static const float bottomBound = center.y + height / 2 - radius;
 
-	if (pos.x + radius > rightBound || pos.x - radius < leftBound) {
+	if (pos.x > rightBound || pos.x < leftBound) {
 		sf::Vector2f vel = particle.getVelocity();
 		sf::Vector2f oldPos = pos - vel;
-		bounce(particle, { oldPos.x, pos.y }, { -vel.x, vel.y });
-	}
-
-	if (pos.y + radius > bottomBound || pos.y - radius < topBound) {
+		sf::Vector2f newPos = { std::min(std::max(oldPos.x, leftBound), rightBound), pos.y };
+		bounce(particle, newPos, { -vel.x, vel.y });
+	} else if (pos.y > bottomBound || pos.y < topBound) {
 		sf::Vector2f vel = particle.getVelocity();
 		sf::Vector2f oldPos = pos - vel;
-		bounce(particle, { pos.x, oldPos.y }, { vel.x, -vel.y });
+		sf::Vector2f newPos = {pos.x, std::min(std::max(oldPos.y, topBound), bottomBound) };
+		bounce(particle, newPos, { vel.x, -vel.y });
 	}
 }
 
