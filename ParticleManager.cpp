@@ -102,41 +102,45 @@ void ParticleManager::applyAirResistance(float dt) const {
 void ParticleManager::checkCollisions() {
 	for (size_t i = 0; i < particles.size(); ++i) {
 		for (size_t j = i + 1; j < particles.size(); ++j) {
-			if (particles[i]->collidesWith(*particles[j])) {
-				// Handle collision...
-				//printf("Collision detected between particles %d and %d\n", i, j);
-				bounceOff(i, j);
-			}
+			bounceOff(i, j);
 		}
 	}
 }
 
 void ParticleManager::bounceOff(int i, int j) {
-	// Calculate new velocities based on masses
-	float m1 = particles[i]->getMass();
-	float m2 = particles[j]->getMass();
-	sf::Vector2f v1 = particles[i]->getVelocity();
-	sf::Vector2f v2 = particles[j]->getVelocity();
+	sf::Vector2f pos1 = particles[i]->getPosition();
+	sf::Vector2f pos2 = particles[j]->getPosition();
+	sf::Vector2f distance = pos1 - pos2;
+	float distance_sqrd = (distance.x * distance.x + distance.y * distance.y);
+	float radius_sum = particles[i]->getRadius() + particles[j]->getRadius();
 
-	float m1_m2 = m1 + m2;
+	if (distance_sqrd < radius_sum * radius_sum) {
+		// Calculate new velocities based on masses
+		float m1 = particles[i]->getMass();
+		float m2 = particles[j]->getMass();
+		sf::Vector2f v1 = particles[i]->getVelocity();
+		sf::Vector2f v2 = particles[j]->getVelocity();
 
-	sf::Vector2f newV1 = (v1 * (m1 - m2) + v2 * 2.f * m2) / m1_m2;
-	sf::Vector2f newV2 = (v1 * 2.f * m1 + v2 * (m2 - m1)) / m1_m2;
+		float m1_m2 = m1 + m2;
 
-	particles[i]->setVelocity(newV1);
-	particles[j]->setVelocity(newV2);
+		// Calculate collision normal
+		float distance_magnitude = std::sqrt(distance_sqrd);
+		sf::Vector2f n = distance / distance_magnitude;
 
-	// Calculate collision normal
-	sf::Vector2f collisionNormal = particles[i]->getPosition() - particles[j]->getPosition();
-	float distance = std::sqrt(collisionNormal.x * collisionNormal.x + collisionNormal.y * collisionNormal.y);
+		// Add a small displacement in the direction of the collision normal
+		static const float response_coef = 0.75f;
+		float displacement = 0.5f * response_coef * (distance_magnitude - radius_sum);
+		particles[i]->setPosition(pos1 - n * (displacement * (m2 / m1_m2)));
+		particles[j]->setPosition(pos2 + n * (displacement * (m1 / m1_m2)));
 
-	// Normalize the collision normal
-	collisionNormal /= distance;
-
-	// Add a small displacement in the direction of the collision normal
-	float displacement = 0;//(particles[i]->getRadius() + particles[j]->getRadius()) / 2; //1.0f; 
-	particles[i]->setPosition(particles[i]->getPosition() + collisionNormal * displacement);
-	particles[j]->setPosition(particles[j]->getPosition() - collisionNormal * displacement);
+		float combined_elasticity = particles[i]->getElasticity() * particles[j]->getElasticity();
+		if (combined_elasticity > 0) {
+			sf::Vector2f newV1 = (v1 * (m1 - m2) + v2 * 2.f * m2) / m1_m2;
+			sf::Vector2f newV2 = (v1 * 2.f * m1 + v2 * (m2 - m1)) / m1_m2;
+			particles[i]->setVelocity(newV1 * combined_elasticity);
+			particles[j]->setVelocity(newV2 * combined_elasticity);
+		}
+	}
 }
 
 void ParticleManager::drawParticles() {
