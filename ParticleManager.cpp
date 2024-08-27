@@ -59,19 +59,21 @@ int ParticleManager::countParticles() const {
 }
 
 void ParticleManager::update(float dt) {
-	// Update particles
-	updateParticles(dt);
+	const int sub_steps = 1;
 
-	// Apply gravity
-	applyGravity(dt);
+	for (int i = 0; i < sub_steps; i++) {
+		// Update particles
+		updateParticles(dt / sub_steps);
 
-	// Apply air resistance
-	//applyAirResistance(dt);
+		// Apply gravity
+		applyGravity(dt / sub_steps);
 
-	// Check for collisions
-	//checkCollisions();
+		// Apply air resistance
+		//applyAirResistance(dt);
 
-	// Draw particles
+		// Check for collisions
+		//checkCollisions();
+	}
 }
 
 void ParticleManager::updateParticles(float dt) const{
