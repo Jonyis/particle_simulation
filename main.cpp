@@ -21,7 +21,7 @@ int main()
 
     sf::Clock clock;
 
-    std::unique_ptr<IShape> boundingShapeCirc = std::make_unique<Circle>(250, sf::Vector2f{ 400, 400 });
+    std::unique_ptr<IShape> boundingShapeCirc = std::make_unique<Circle>(150, sf::Vector2f{ 400, 400 });
     std::unique_ptr<IShape> boundingShapeRect = std::make_unique<Rectangle>(500, 500, sf::Vector2f(400, 400));
     Renderer renderer(window);    
     ParticleManager particleManager(n, boundingShapeCirc, renderer);

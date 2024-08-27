@@ -11,6 +11,10 @@ public:
 
     sf::Vector2f getRandomPosition() const override;
 
+    sf::Vector2f getSize() const override { return { width, height }; }
+
+    sf::Vector2f getOffset() const override { return center - sf::Vector2f(width / 2, height / 2); }
+
 private:
     float width;
     float height;
